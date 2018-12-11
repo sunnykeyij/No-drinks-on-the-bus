@@ -2,7 +2,8 @@ rm(list=ls())
 library(dplyr)
 library(cluster)
 
-setwd("C:\\Users\\UOS\\Dropbox\\DataMiningTeamProject")
+setwd("C:\\Users\\Mycom\\Dropbox\\DataMiningTeamProject")
+# setwd("C:\\Users\\UOS\\Dropbox\\DataMiningTeamProject")
 load("gooraw.Rda")
 goo_raw <- goo_raw[,-10] # 세대,인구수 비슷하니까 세대만 남긴다
 rownames(goo_raw) <- goo_raw$goo
@@ -19,6 +20,7 @@ goo_raw <- goo_raw %>% select(goo,daypop,nightpop,면적,프랜차이즈,buscoun
 # goo_raw %>% select(-goo) %>%cor() %>% corrplot.mixed(upper="ellipse")
 ################ 군집분석 #################
 # kmeans
+set.seed(3)
 goo_scale <- as.data.frame(scale(goo_raw[,-1]))
 kmeans_fit <- kmeans(goo_scale,3)
 
@@ -26,6 +28,7 @@ if(!require(cluster)){ install.packages('cluster')}; require(cluster)
 clusplot(goo_scale, kmeans_fit$cluster, main='2D representation of the Cluster solution',
          color=TRUE, shade=TRUE,
          labels=2, lines=0)
+
 
 plot(goo_scale,col=(kmeans_fit$cluster))
 
@@ -51,21 +54,25 @@ clust_out3 <- hclust(dist(goo_scale),method="complete")
 plot(clust_out3,labels=goo_raw$goo)
 
 ################ 회귀 #################
-reg1 <- lm(프랜차이즈~daypop+면적+buscount+종사자수+월매출,data=goo_raw)
-summary(reg1)
-reg_select1 <- step(reg1,direction="backward")
-summary(reg_select1)
-plot(reg_select1)
+library(car)
+reg1 <- lm(buscount~daypop+nightpop+면적+프랜차이즈+trashcount+종사자수+월매출,data=goo_raw)
+vif(reg1)
+cor(goo_raw[,-1])
 
-reg2 <- lm(trashcount~daypop+면적+buscount+종사자수+월매출+프랜차이즈,data=goo_raw)
-summary(reg2)
-reg_select2 <- step(reg2,direction="backward")
-summary(reg_select2)
-plot(reg_select2)
+prcomp1 <- prcomp(scale(goo_raw[,c(-1,-6)]))
+summary(prcomp1)
+print(prcomp1)
+plot(prcomp1,type="l")
+biplot(prcomp1,cex=c(0.6,1))
 
-mean(goo_raw$trashcount);sd(goo_raw$trashcount)
-mean(goo_raw$프랜차이즈);sd(goo_raw$프랜차이즈)
+library(glmnet)
+grid=10^seq(10,-2,length=100)
+x=model.matrix(buscount~daypop+nightpop+면적+프랜차이즈+trashcount+종사자수+월매출,data=goo_raw)[,-1]
+y=goo_raw$buscount
 
-summary(goo_raw$프랜차이즈)
-reg3 <- glm(trashcount~daypop+면적+buscount+종사자수+월매출+프랜차이즈,data=goo_raw,family=poisson)
-            
+set.seed(1)
+cv.out = cv.glmnet(x,y,alpha=0)
+plot(cv.out)
+bestlam = cv.out$lambda.min
+out = glmnet(x,y,alpha=0)
+predict(out,type="coefficients",s=bestlam)
