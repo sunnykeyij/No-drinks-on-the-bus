@@ -64,7 +64,7 @@ if(!require(dplyr)){install.packages("dplyr")}; require(dplyr)
 if(!require(rgdal)){install.packages("rgdal")}; require(rgdal)
 
 ## 2. 서울시 추출 구단위 주요상권 위도경도 업데이트 ---------------------------------------
-api_key <-"AIzaSyCPKFLjgqXaZl6-1uRUZSg-F2M9KcvQPho"
+api_key <-"my key"
 register_google(key = api_key); has_goog_key()   # check api_key
 
 # 시군 구분 행정지도 가져오기
