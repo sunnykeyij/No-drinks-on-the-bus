@@ -13,8 +13,6 @@ if(!require(rgeos)){install.packages("rgeos")}; require(rgeos)    # map_data
 if(!require(broom)){install.packages("broom")}; require(broom)    # map_data
 if(!require(xlsx)){install.packages("xlsx")}; require(xlsx)
 
-setwd("C:/Users/UOS/Dropbox/DataMiningTeamProject")
-
 # 시군 구분 행정지도 가져오기
 korea_new <- shapefile('shp/SIG_201804/TL_SCCO_SIG.shp')
 seoul_map <- subset(korea_new, as.integer(korea_new$SIG_CD)%/%1000 == 11) # 한국 행정지도에서 서울시만 추출
@@ -30,7 +28,7 @@ graph_func = function(var,map){
   dat$SIG_KOR_NM = as.character(dat$SIG_KOR_NM)
   
   # map =  seoul_map
-    seoul_admin <- merge(map, dat, by="SIG_KOR_NM")
+  seoul_admin <- merge(map, dat, by="SIG_KOR_NM")
   
   x <- seoul_admin$count
   x <- -(x-min(x))/(max(x)-min(x))*100
