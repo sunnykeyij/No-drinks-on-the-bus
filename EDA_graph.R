@@ -38,7 +38,6 @@ graph_func = function(var,map){
   
   plot(map, col=heat.colors(100)[x])
   text(coordinates(map), seoul_admin$SIG_KOR_NM, cex=0.7)
-  
 }
 
 #############################################################################
