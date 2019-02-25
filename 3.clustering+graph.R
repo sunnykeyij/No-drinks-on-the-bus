@@ -3,8 +3,10 @@ if(!require(cluster)){install.packages("cluster")}; require(cluster)
 if(!require(dplyr)){install.packages("dplyr")} ; require(dplyr)
 if(!require(plyr)){install.packages("plyr")};require(plyr)
 
+setwd("C:\\Users\\UOS\\Dropbox\\DataMiningTeamProject")
 load("gooraw.Rda")
 goo_raw <- goo_raw %>% dplyr::select(goo,daypop,nightpop,면적,프랜차이즈,buscount,trashcount,종사자수,월매출)
+rownames(goo_raw) <- goo_raw$goo
 
 ### kmeans
 set.seed(3)
@@ -85,6 +87,7 @@ kmeans_graph = graph_func(map = seoul_map,data = kmeans.dat)
 graph_func2 = function(var,map){
   #변수 정제
   # var = clust1_cut
+  
   dat = as.table(var) %>% as.data.frame()
   colnames(dat) = c("SIG_KOR_NM","count")
   dat$SIG_KOR_NM =as.character(dat$SIG_KOR_NM)
