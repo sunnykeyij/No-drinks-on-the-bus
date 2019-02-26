@@ -24,7 +24,7 @@ library(corrplot)
 ![K-means](/images/cluster_single.png)
 - final cluster and characteristic  
 예산이 자치구 단위로 집행되어 정책이 시행 되기 때문에 구 단위 군집 분석이 적합함  
-초록색 군집의 경우 면적, 주간생활인구, 커피전문점수, 버스승차객 수가 많은 축임에 반해 쓰레기통 수가 적음을 알 수 있음  
+초록색 군집의 경우 면적, 주간생활인구, 커피전문점수, 버스승차객 수가 많음에 비해 쓰레기통 수가 적음을 알 수 있음  
 따라서 초록색 군집에 대해 분석시행
 ![K-means](/images/final_kmeans.png)
 ![K-means](/images/cluster_scatterplot.png)
