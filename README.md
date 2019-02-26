@@ -15,10 +15,10 @@ library(corrplot)
 ![EDA](/images/EDA_seoul_trashcount.png)
 
 ## GU Clustering
-- k-menas
+- k-menas (k=3)
 ![K-means](/images/kmeans.png)
 ![K-means](/images/kmeans_graph.png)
-- h-clust
+- h-clust (average, complte, single methods)
 ![K-means](/images/cluster_average.png)
 ![K-means](/images/cluster_complete.png)
 ![K-means](/images/cluster_single.png)
