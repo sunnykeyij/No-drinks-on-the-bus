@@ -13,14 +13,20 @@ if(!require(rgeos)){install.packages("rgeos")}; require(rgeos)    # map_data
 if(!require(broom)){install.packages("broom")}; require(broom)    # map_data
 if(!require(xlsx)){install.packages("xlsx")}; require(xlsx)
 
+# data가져오기
+load("gooraw.RDa")
+
 # 시군 구분 행정지도 가져오기
 korea_new <- shapefile('shp/SIG_201804/TL_SCCO_SIG.shp')
 seoul_map <- subset(korea_new, as.integer(korea_new$SIG_CD)%/%1000 == 11) # 한국 행정지도에서 서울시만 추출
 
-# data가져오기
-load("gooraw.RDa")
 
-# 변수 별 그래프 그리기
+
+#############################################################################
+# 분석과정1. EDA(Daypop, nightpop, 면적, 프랜차이즈, buscount, trashcount, 종사자수, 커피점월평균매출)
+#############################################################################
+
+### step1. 변수 별 그래프 생성하는 function 'graph_func'정의
 graph_func = function(var,map){
   
   # var = goo_raw$daypop
@@ -38,9 +44,7 @@ graph_func = function(var,map){
   text(coordinates(map), seoul_admin$SIG_KOR_NM, cex=0.7)
 }
 
-#############################################################################
-# Daypop, nightpop, 면적, 프랜차이즈, buscount, trashcount, 종사자수, 커피점월평균매출
-#############################################################################
+### step2. 변수별 그래프 그리기
 daypop_graph = graph_func(var= goo_raw$daypop,map = seoul_map)
 title(main = "daypop",cex.main = 1)
 
