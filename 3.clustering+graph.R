@@ -114,3 +114,20 @@ cluster1 = graph_func2(var=clust1_cut, map = seoul_map) #average
 cluster2 = graph_func2(var=clust2_cut, map = seoul_map) #single
 cluster3 = graph_func2(var=clust3_cut, map = seoul_map) #complete
 
+
+
+#############################################################################
+# 분석과정 2-3. Characterization of the final cluster
+#############################################################################
+
+cluster_color <- c()
+cluster_color[kmeans_fit$cluster==2] = "darkmagenta"
+cluster_color[kmeans_fit$cluster==3] = "forestgreen"
+cluster_color[kmeans_fit$cluster==1] = "gray"
+
+plot1 <- ggplot(goo_raw,aes(x=면적,y=daypop)) + geom_text(label=goo_raw$goo,color=cluster_color) +labs(x="면적",y="주간생활인구")+theme_bw()
+plot2 <- ggplot(goo_raw,aes(x=면적,y=프랜차이즈)) + geom_text(label=goo_raw$goo,color=cluster_color) +labs(x="면적",y="커피전문점수")+ theme_bw()
+plot3 <- ggplot(goo_raw,aes(x=면적,y=buscount)) + geom_text(label=goo_raw$goo,color=cluster_color) + labs(x="면적",y="버스정류장수")+theme_bw()
+plot4 <- ggplot(goo_raw,aes(x=면적,y=trashcount)) + geom_text(label=goo_raw$goo,color=cluster_color) + labs(x="면적",y="쓰레기통수")+theme_bw()
+
+grid.arrange(plot1, plot2, plot3, plot4, nrow=2, ncol=2)
